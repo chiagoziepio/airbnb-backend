@@ -54,7 +54,7 @@ const ApartmentSchema = mongoose.Schema({
         unique: true
     },
     status:{
-        type: mongoose.Schema.Types.Boolean,
+        type: mongoose.Schema.Types.String,
         required: true,
        
     },

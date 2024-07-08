@@ -1,20 +1,41 @@
-const {apartmentModel} = require("../models/Schemas")
+const { apartmentModel, userModel } = require("../models/Schemas");
+const jwt = require("jsonwebtoken");
 
-const handleCreateApartment = async(req,res)=>{
- const {title, des, rentalprice, img,status,owner,location} = req.body;
+const handleCreateApartment = async (req, res) => {
+  console.log(req.cookies);
+  const token = req.cookies.token;
+  if (!token)
+    res.status(401).json({ msg: "must be logged in to list an apartment" });
+  const { title, des, rentalPrice, img, status, location } = req.body;
 
- if(!title || !des || !rentalprice || !img || !status|| !owner || !location) return res.status(400).json({msg:"provide the necessary information"})
+  if (!title || !des || !rentalPrice || !img || !status || !location)
+    return res.status(400).json({ msg: "provide the necessary information" });
 
-const duplicateApartment = await apartmentModel.findOne({img})
-if(duplicateApartment) return res.status(400).json({msg:"this apartment already registered"})
-    try {
-        const newApartment = new apartmentModel({
-            title,
-            des
-        })
-    } catch (error) {
-        
-    }
-}
+  const duplicateApartment = await apartmentModel.findOne({ img });
+  if (duplicateApartment)
+    return res.status(400).json({ msg: "this apartment already registered" });
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+  console.log(decoded);
+  const username = decoded.username;
 
-module.exports = handleCreateApartment
+  try {
+    const lister = await userModel.findOne({ username });
+    if (!lister) res.status(401).json({ msg: "invalid token" });
+    const newApartment = new apartmentModel({
+      title,
+      des,
+      rentalPrice,
+      img,
+      status,
+      location,
+      owner: lister._id,
+    });
+    newApartment.save();
+    res.status(201).json({ msg: "apartment listed", newApartment });
+  } catch (error) {
+    console.log(`error listing apartment :${error}`);
+    res.status(500).json({ msg: error });
+  }
+};
+
+module.exports = handleCreateApartment;

@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const ExSession = require("express-session");
+const cookieParser = require("cookie-parser")
 const cors =require("cors")
 require("dotenv").config()
 
@@ -9,6 +10,7 @@ require("dotenv").config()
 //initialize
 const app = express()
 app.use(express.json())
+app.use(cookieParser())
 app.use(cors())
 
 app.use(ExSession({
@@ -41,3 +43,4 @@ connc.on('error',(err)=>{
 //routes
 
 app.use("/api/airbnb/user", require("./routes/user"))
+app.use("/api/airbnb/user", require("./routes/apartment"))
