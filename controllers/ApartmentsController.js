@@ -7,7 +7,7 @@ const handleCreateApartment = async (req, res) => {
   if (!token)
     res.status(401).json({ msg: "must be logged in to list an apartment" });
   const { title, des, rentalPrice, img, status, location } = req.body;
-
+ 
   if (!title || !des || !rentalPrice || !img || !status || !location)
     return res.status(400).json({ msg: "provide the necessary information" });
 
@@ -18,7 +18,7 @@ const handleCreateApartment = async (req, res) => {
   console.log(decoded);
   const username = decoded.username;
 
-  try {
+   try {
     const lister = await userModel.findOne({ username });
     if (!lister) res.status(401).json({ msg: "invalid token" });
     const newApartment = new apartmentModel({
@@ -35,7 +35,18 @@ const handleCreateApartment = async (req, res) => {
   } catch (error) {
     console.log(`error listing apartment :${error}`);
     res.status(500).json({ msg: error });
-  }
+  } 
 };
-
-module.exports = handleCreateApartment;
+ const handleGetAllApartment = async(req,res)=>{
+    const token = req.cookies.token
+     try {
+        if(!token) return res.status(401).json({msg: "not Logged in"})
+        const AllApartment = await apartmentModel.find()
+        res.status(200).json({msg:AllApartment})
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({msg:"cant apartments"})
+    }
+ }
+module.exports = {handleCreateApartment, handleGetAllApartment};
