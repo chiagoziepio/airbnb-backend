@@ -1,4 +1,4 @@
-const userModel = require("../models/Schemas")
+const {userModel} = require("../models/Schemas")
 const bcrypt = require("bcryptjs")
 
 const handleRegister = async(req,res)=>{

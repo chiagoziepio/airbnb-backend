@@ -27,6 +27,52 @@ const UserSchema = mongoose.Schema({
     ]
 })
 
+
 const userModel = mongoose.model("user", UserSchema)
 
-module.exports = userModel
+
+const ApartmentSchema = mongoose.Schema({
+    title:{
+        type: mongoose.Schema.Types.String,
+        required: true
+    },
+    location:{
+        type: mongoose.Schema.Types.String,
+        required: true
+    },
+    des:{
+        type: mongoose.Schema.Types.String,
+        required: true
+    },
+    rentalPrice:{
+        type: mongoose.Schema.Types.Number,
+        required: true
+    },
+    img:{
+        type: mongoose.Schema.Types.String,
+        required: true,
+        unique: true
+    },
+    status:{
+        type: mongoose.Schema.Types.Boolean,
+        required: true,
+       
+    },
+    owner:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        required: true,
+       
+    },
+    listedDate:{
+        type: Date,
+        default: Date.now,
+        required: true,
+       
+    },
+
+})
+
+const apartmentModel = mongoose.model("apartment", ApartmentSchema)
+
+module.exports = {userModel, apartmentModel}
