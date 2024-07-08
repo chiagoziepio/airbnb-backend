@@ -46,7 +46,20 @@ const handleCreateApartment = async (req, res) => {
         
     } catch (error) {
         console.log(error);
-        res.status(500).json({msg:"cant apartments"})
+        res.status(500).json({msg:"cant get apartments"})
     }
  }
-module.exports = {handleCreateApartment, handleGetAllApartment};
+ const handleGetOneApartment = async(req,res)=>{
+        const {_id} = req.params;
+        try {
+            const findApartment = await apartmentModel.findById(_id);
+            if(!findApartment) return res.status(404).json({msg: "not a valid id"});
+            res.status(200).json({msg:findApartment});
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({msg:"error getting the apartment"})
+        }
+ }
+
+module.exports = {handleCreateApartment, handleGetAllApartment,handleGetOneApartment};
