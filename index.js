@@ -5,7 +5,7 @@ require("dotenv").config()
 
 //initialize
 const app = express()
-
+app.use(express.json())
 const PORT = process.env.PORT || 3500
 
 // connection to database
@@ -21,3 +21,7 @@ connc.on('error',(err)=>{
     console.log(`database error:${err}`);
     process.exit()
 })
+
+//routes
+
+app.use("/api/airbnb/user", require("./routes/user"))
