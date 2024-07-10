@@ -43,4 +43,4 @@ connc.on('error',(err)=>{
 //routes
 
 app.use("/api/airbnb/user", require("./routes/user"))
-app.use("/api/airbnb/user", require("./routes/apartment"))
+app.use("/api/airbnb/apartment", require("./routes/apartment"))
