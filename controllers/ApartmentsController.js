@@ -1,7 +1,6 @@
-const  mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const { apartmentModel, userModel } = require("../models/Schemas");
 const jwt = require("jsonwebtoken");
-
 
 const handleCreateApartment = async (req, res) => {
   console.log(req.cookies);
@@ -10,7 +9,7 @@ const handleCreateApartment = async (req, res) => {
     res.status(401).json({ msg: "must be logged in to list an apartment" });
   const { title, des, rentalPrice, status, location } = req.body;
 
-  if (!title || !des || !rentalPrice || !status  || !location)
+  if (!title || !des || !rentalPrice || !status || !location)
     return res.status(400).json({ msg: "provide the necessary information" });
   const ImgArray = [
     "https://i.pinimg.com/564x/5f/61/c4/5f61c42c564b8d32ec2831269d133962.jpg",
@@ -32,7 +31,7 @@ const handleCreateApartment = async (req, res) => {
   /*const duplicateApartment = await apartmentModel.findOne({ img });
    if (duplicateApartment.rentalPrice === rentalPrice) 
     return res.status(200).json({ msg: duplicateApartment });*/
-   const decoded = jwt.verify(token, process.env.SECRET_KEY);
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
   console.log(decoded);
   const username = decoded.username;
 
@@ -49,11 +48,11 @@ const handleCreateApartment = async (req, res) => {
       owner: lister._id,
     });
     newApartment.save();
-    res.status(201).json({ msg: "apartment listed"});
+    res.status(201).json({ msg: "apartment listed" });
   } catch (error) {
     console.log(`error listing apartment :${error}`);
     res.status(500).json({ msg: error });
-  } 
+  }
 };
 const handleGetAllApartment = async (req, res) => {
   const token = req.cookies.token;
@@ -104,34 +103,35 @@ const handleBookApartment = async (req, res) => {
     res.status(500).json({ msg: "couldn't booked apartment" });
   }
 };
-const handleGetBookedApartment = async(req,res)=>{
+const handleGetBookedApartment = async (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ msg: "not logged in" });
   const decoded = jwt.verify(token, process.env.SECRET_KEY);
   console.log(decoded);
   const username = decoded.username;
- try {
-    const findUser = await userModel.findOne({ username })
+  try {
+    const findUser = await userModel.findOne({ username });
     if (!findUser) return res.status(404).json({ msg: "invalid token" });
     const bookedApartment = findUser.bookedApartment;
-    console.log(bookedApartment);
-    const apartment = await apartmentModel.find({_id : {$in: bookedApartment}});
-    /* return res.status(200).json({msg: apartment}) */
-     if(apartment.length === 0) {
-      return res.status(200).json({msg:"No booked apartment"})
-    }else{
-      return res.status(200).json({msg: apartment})
-    } 
-  }  catch (error) {
+
+    const apartment = await apartmentModel.find({
+      _id: { $in: bookedApartment },
+    });
+
+    if (apartment.length === 0) {
+      return res.status(200).json({ msg: "No booked apartment" });
+    } else { 
+      return res.status(200).json({ msg: apartment });
+    }
+  } catch (error) {
     console.log(`getting booked apartment error : ${error}`);
-    res.status(500).json({msg: error})
-    
-  } 
-}
+    res.status(500).json({ msg: error });
+  }
+};
 module.exports = {
   handleCreateApartment,
   handleGetAllApartment,
   handleGetOneApartment,
   handleBookApartment,
-  handleGetBookedApartment
+  handleGetBookedApartment,
 };

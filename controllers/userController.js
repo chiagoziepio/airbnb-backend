@@ -1,5 +1,6 @@
 const { userModel } = require("../models/Schemas");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const handleRegister = async (req, res) => {
   const { name, username, email, password } = req.body;
@@ -24,4 +25,20 @@ const handleRegister = async (req, res) => {
   }
 };
 
-module.exports = handleRegister;
+const getLoggedInUser = async(req,res)=>{
+  const token = req.cookies.token;
+  if(!token)res.status(401).json({msg:"not logged in"});
+  try {
+    const decoded = jwt.verify(token,process.env.SECRET_KEY)
+    const username = decoded.username;
+    const findUser = await userModel.findOne({ username });
+    if(!findUser) return res.status(400).json({msg: "invalid token"});
+    const neededUserDetail = [{username: findUser.username, email: findUser.email, id: findUser._id}];
+        res.status(200).json({user: neededUserDetail})
+  } catch (error) {
+    console.log(`individual : ${error}`);
+    res.status(500).json({msg:error})
+  }
+}
+
+module.exports = {handleRegister,getLoggedInUser};

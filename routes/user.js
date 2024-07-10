@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const handleRegister = require("../controllers/userController");
+const {handleRegister,getLoggedInUser} = require("../controllers/userController");
 const passportLogin = require("../middlewares/strategy");
 const jwt = require("jsonwebtoken");
 
@@ -20,5 +20,6 @@ router.post("/login", passportLogin.authenticate("local"), async (req, res) => {
   req.session.visited = true;
   return res.status(200).json({ msg: "logged in successfully" });
 });
-
+// get logged in user
+router.get("/getUser",getLoggedInUser)
 module.exports = router;
