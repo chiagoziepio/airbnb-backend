@@ -70,6 +70,19 @@ const ApartmentSchema = mongoose.Schema({
         required: true,
        
     },
+    bed:{
+        type: Number,
+        required: true
+    },
+    room:{
+        type: Number,
+        required: true
+    },
+    bathroom:{
+        type: Number,
+        required: true
+    }
+
 
 })
 

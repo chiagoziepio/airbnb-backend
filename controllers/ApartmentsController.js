@@ -7,9 +7,9 @@ const handleCreateApartment = async (req, res) => {
   const token = req.cookies.token;
   if (!token)
     res.status(401).json({ msg: "must be logged in to list an apartment" });
-  const { title, des, rentalPrice, status, location } = req.body;
+  const { title, des, rentalPrice, status, location,bed,room,bathroom } = req.body;
 
-  if (!title || !des || !rentalPrice || !status || !location)
+  if (!title || !des || !rentalPrice || !status || !location || !bed || !room || !bathroom)
     return res.status(400).json({ msg: "provide the necessary information" });
   const ImgArray = [
     "https://i.pinimg.com/564x/5f/61/c4/5f61c42c564b8d32ec2831269d133962.jpg",
@@ -46,6 +46,9 @@ const handleCreateApartment = async (req, res) => {
       status,
       location,
       owner: lister._id,
+      bed,
+      room,
+      bathroom
     });
     newApartment.save();
     res.status(201).json({ msg: "apartment listed" });
