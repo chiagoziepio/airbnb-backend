@@ -8,9 +8,12 @@ const handleCreateApartment = async (req, res) => {
   if (!token)
     res.status(401).json({ msg: "must be logged in to list an apartment" });
   const { title, des, rentalPrice, status, location,bed,room,bathroom } = req.body;
-
+  
   if (!title || !des || !rentalPrice || !status || !location || !bed || !room || !bathroom)
     return res.status(400).json({ msg: "provide the necessary information" });
+ const convertedBathroom = Number(bathroom)
+ const convertedRoom = Number(room)
+  const convertedBed = Number(bed)
   const ImgArray = [
     "https://i.pinimg.com/564x/5f/61/c4/5f61c42c564b8d32ec2831269d133962.jpg",
     "https://i.pinimg.com/236x/2c/55/21/2c5521af4bfbd2d545c388de165b9bb8.jpg",
@@ -46,9 +49,9 @@ const handleCreateApartment = async (req, res) => {
       status,
       location,
       owner: lister._id,
-      bed,
-      room,
-      bathroom
+      bed:convertedBed,
+      room: convertedRoom,
+      bathroom: convertedBathroom
     });
     newApartment.save();
     res.status(201).json({ msg: "apartment listed" });
@@ -120,12 +123,7 @@ const handleGetBookedApartment = async (req, res) => {
     const apartment = await apartmentModel.find({
       _id: { $in: bookedApartment },
     });
-
-    if (apartment.length === 0) {
-      return res.status(200).json({ msg: "No booked apartment" });
-    } else { 
-      return res.status(200).json({ msg: apartment });
-    }
+    return res.status(200).json({ msg: apartment });
   } catch (error) {
     console.log(`getting booked apartment error : ${error}`);
     res.status(500).json({ msg: error });
