@@ -50,8 +50,8 @@ const ApartmentSchema = mongoose.Schema({
     },
     img:{
         type: mongoose.Schema.Types.String,
-        required: true,
-        unique: true
+        required: true
+
     },
     status:{
         type: mongoose.Schema.Types.String,

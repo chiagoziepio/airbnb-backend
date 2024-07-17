@@ -14,6 +14,7 @@ const handleCreateApartment = async (req, res) => {
  const convertedBathroom = Number(bathroom)
  const convertedRoom = Number(room)
   const convertedBed = Number(bed)
+  const convertedRentalPrice = Number(rentalPrice)
   const ImgArray = [
     "https://i.pinimg.com/564x/5f/61/c4/5f61c42c564b8d32ec2831269d133962.jpg",
     "https://i.pinimg.com/236x/2c/55/21/2c5521af4bfbd2d545c388de165b9bb8.jpg",
@@ -44,7 +45,7 @@ const handleCreateApartment = async (req, res) => {
     const newApartment = new apartmentModel({
       title,
       des,
-      rentalPrice,
+      rentalPrice: convertedRentalPrice,
       img,
       status,
       location,
