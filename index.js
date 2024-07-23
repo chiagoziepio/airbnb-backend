@@ -57,9 +57,6 @@ mongoose.connect(process.env.DATABASE_URI)
 )
 
 //routes
-app.use("/", (req,res)=>{
-    res.status(200).send("welcome")
-})
 app.use("/api/airbnb/user", require("./routes/user"))
 app.use("/api/airbnb/apartment", require("./routes/apartment"));
 app.use("/api/airbnb/dashboard", require("./routes/dashboard"))
