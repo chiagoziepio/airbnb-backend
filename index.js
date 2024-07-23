@@ -34,7 +34,7 @@ app.use(passport.session())
 const PORT = process.env.PORT || 3500
 
 // connection to database
-mongoose.connect("mongodb://0.0.0.0/airbnb-project")
+/* mongoose.connect("mongodb://0.0.0.0/airbnb-project")
 const connc = mongoose.connection
 connc.once('open',()=>{
     console.log('connected to database');
@@ -45,10 +45,21 @@ connc.once('open',()=>{
 connc.on('error',(err)=>{
     console.log(`database error:${err}`);
     process.exit()
-})
+}) */
+mongoose.connect(process.env.DATABASE_URI)
+    .then((e)=> 
+        console.log("connected to databse"),
+        app.listen(PORT , ()=>{
+            console.log(`app runing on port : ${PORT}`);
+        })
+    ).catch((error)=>
+    console.log(`failed to connect : ${error}`)
+)
 
 //routes
-
+app.use("/", (req,res)=>{
+    res.status(200).send("welcome")
+})
 app.use("/api/airbnb/user", require("./routes/user"))
 app.use("/api/airbnb/apartment", require("./routes/apartment"));
 app.use("/api/airbnb/dashboard", require("./routes/dashboard"))
