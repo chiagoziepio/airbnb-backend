@@ -16,10 +16,16 @@ app.use(cors(
         origin: [
             "http://localhost:5173"
         ],
+        methods: ['GET','POST','DELETE','PUT','OPTIONS'],
         credentials: true
     }
 ))
 
+app.options('*', cors({
+    origin:["http://localhost:5173"],
+    methods: ['GET','POST','DELETE','PUT','OPTIONS'],
+    credentials: true
+}))
 /* app.use(ExSession({
     secret: "paddy naaa",
     saveUninitialized: false,
