@@ -22,7 +22,7 @@ router.post("/login", async (req, res) => {
       process.env.SECRET_KEY,
       { expiresIn: "30m" }
       );
-      res.cookie("token", token, { httpOnly: true, maxAge: 1800000 });
+      res.cookie("token", token, { httpOnly: true, maxAge: 1800000,secure:true ,sameSite: 'None' });
       return res.status(200).json({ msg: "logged in successfully" });
   } catch (error) {
        return res.status(500).json({msg: "server error ooh"})

@@ -16,26 +16,27 @@ app.use(cors(
         origin: [
             "http://localhost:5173"
         ],
-        methods: ['GET','POST','DELETE','PUT','OPTIONS'],
+        //methods: ['GET','POST','DELETE','PUT','OPTIONS'],
         credentials: true
     }
 ))
 
-app.options('*', cors({
+/* app.options('*', cors({
     origin:["http://localhost:5173"],
     methods: ['GET','POST','DELETE','PUT','OPTIONS'],
     credentials: true
-}))
-/* app.use(ExSession({
+})) */
+app.use(ExSession({
     secret: "paddy naaa",
     saveUninitialized: false,
     resave: false,
     cookie: {
-        maxAge: 60000 * 60
+        maxAge: 60000 * 60,
+        secure: true
     }
 }));
 
-app.use(passport.initialize())
+/* app.use(passport.initialize())
 app.use(passport.session()) */
 const PORT = process.env.PORT || 3500
 
