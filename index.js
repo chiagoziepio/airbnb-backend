@@ -20,7 +20,7 @@ app.use(cors(
     }
 ))
 
-app.use(ExSession({
+/* app.use(ExSession({
     secret: "paddy naaa",
     saveUninitialized: false,
     resave: false,
@@ -30,7 +30,7 @@ app.use(ExSession({
 }));
 
 app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.session()) */
 const PORT = process.env.PORT || 3500
 
 // connection to database
