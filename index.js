@@ -14,7 +14,8 @@ app.use(cookieParser())
 app.use(cors(
     {
         origin: [
-            "http://localhost:5173"
+            "http://localhost:5173",
+            "https://cozy-home-three.vercel.app"
         ],
         //methods: ['GET','POST','DELETE','PUT','OPTIONS'],
         credentials: true
