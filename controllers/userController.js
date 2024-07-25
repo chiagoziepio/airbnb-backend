@@ -27,7 +27,7 @@ const handleRegister = async (req, res) => {
 
 const getLoggedInUser = async(req,res)=>{
   const token = req.cookies.token;
-  if(!token)res.status(401).json({msg:"not logged in"});
+  if(!token) return res.status(401).json({msg:"not logged in"});
   try {
     const decoded = jwt.verify(token,process.env.SECRET_KEY)
     const username = decoded.username;

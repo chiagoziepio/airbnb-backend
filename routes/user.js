@@ -31,4 +31,11 @@ router.post("/login", async (req, res) => {
 });
 // get logged in user
 router.get("/getUser",getLoggedInUser)
-module.exports = router;
+router.get("/logout", async(req,res)=>{
+  const token = req.cookies.token
+  if(!token) return
+  res.clearCookie(token)
+  res.redirect("/")
+  res.status(301).json({msg: "logged out"})
+})
+module.exports = router; 
