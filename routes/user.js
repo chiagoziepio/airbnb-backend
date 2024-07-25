@@ -34,7 +34,7 @@ router.get("/getUser",getLoggedInUser)
 router.get("/logout", async(req,res)=>{
   const token = req.cookies.token
   if(!token) return
-  res.clearCookie(token,{sameSite: 'None', secure: true})
+  res.clearCookie("token",{sameSite: 'None', secure: true})
   //res.redirect("/")
   res.status(200).json({msg: "logged out"})
 })
