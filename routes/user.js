@@ -22,7 +22,7 @@ router.post("/login", async (req, res) => {
       process.env.SECRET_KEY,
       { expiresIn: "30m" }
       );
-      res.cookie("token", token, { httpOnly: true, maxAge: 1800000,secure:true ,sameSite: 'None',path: "/",domain:"https://cozyhomes.vercel.app" });
+      res.cookie("token", token, { httpOnly: true, maxAge: 1800000,secure:true ,sameSite: 'None' });
       return res.status(200).json({ msg: "logged in successfully" });
   } catch (error) {
        return res.status(500).json({msg: "server error ooh"})
@@ -34,7 +34,7 @@ router.get("/getUser",getLoggedInUser)
 router.get("/logout", async(req,res)=>{
   const token = req.cookies.token
   if(!token) return
-  res.clearCookie("token",{httpOnly: true,secure:true ,sameSite: 'None',path: "/",domain:"https://cozyhomes.vercel.app"})
+  res.clearCookie("token",{httpOnly: true,secure:true ,sameSite: 'None'})
   //res.redirect("/")
   res.status(200).json({msg: "logged out"})
 })
